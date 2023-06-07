@@ -44,23 +44,20 @@ export class RootComponent implements OnInit {
   ngOnInit() {}
 
   submitForm() {
-    // Validar os campos do formulário
+    // Valida os campos do formulário
     if (!this.formData.nome || !this.formData.cpf || !this.formData.telefone) {
       alert('Por favor, preencha todos os campos do formulário.');
       return;
     }
 
-    // Realizar a lógica de envio do formulário, como salvar no Firebase ou em outro local
-    // ...
-
-    // Limpar os campos do formulário após o envio
+    // Limpa os campos do formulário após o envio
     this.formData = {
       nome: '',
       cpf: '',
       telefone: ''
     };
 
-    // Remover animais selecionados da lista de adoção
+    // Remove animais selecionados da lista de adoção
     const selectedAnimals = this.animals.filter(animal => animal.selecionado);
     selectedAnimals.forEach(animal => {
       const index = this.animals.findIndex(a => a === animal);
