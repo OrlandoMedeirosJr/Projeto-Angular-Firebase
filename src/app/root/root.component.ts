@@ -14,11 +14,17 @@ interface FormData {
   telefone: string;
 }
 
+interface AdocaoData {
+  animal: Animal;
+  adotante: FormData;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.css']
 })
+
 export class RootComponent implements OnInit {
   email = '';
   password = '';
@@ -39,6 +45,20 @@ export class RootComponent implements OnInit {
 
   adocaoConfirmada = false;
 
+  nomeAdotante: string = '';
+
+  adocoes: AdocaoData[] = [];
+
+  exit() {
+    // Limpa os dados do usuário e os animais adotados
+    this.auth.user = null;
+    this.adocoes = [];
+    this.nomeAdotante = '';
+
+    // Redefine o estado da aplicação
+    this.adocaoConfirmada = false;
+  }
+
   constructor(public auth: AuthService) {}
 
   ngOnInit() {}
@@ -50,13 +70,6 @@ export class RootComponent implements OnInit {
       return;
     }
 
-    // Limpa os campos do formulário após o envio
-    this.formData = {
-      nome: '',
-      cpf: '',
-      telefone: ''
-    };
-
     // Remove animais selecionados da lista de adoção
     const selectedAnimals = this.animals.filter(animal => animal.selecionado);
     selectedAnimals.forEach(animal => {
@@ -64,7 +77,21 @@ export class RootComponent implements OnInit {
       if (index !== -1) {
         this.animals.splice(index, 1);
       }
+      this.adocoes.push({
+        animal: animal,
+        adotante: { ...this.formData }
+      });
     });
+
+    // Atribui o nome do adotante à variável nomeAdotante
+    this.nomeAdotante = this.formData.nome;
+
+    // Limpa os campos do formulário após o envio
+    this.formData = {
+      nome: '',
+      cpf: '',
+      telefone: ''
+    };
 
     this.adocaoConfirmada = true;
   }

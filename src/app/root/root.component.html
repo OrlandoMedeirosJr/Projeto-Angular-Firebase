@@ -27,7 +27,7 @@
 </div>
 <div *ngIf="auth.user">
 Conectado como | <b>{{ auth.user.email }}</b>
-  <button class="exit" (click)="auth.signOut()">Exit</button>
+  <button class="exit" (click)="exit()">Exit</button>
   <hr />
 
   <h2>Animais para adoção</h2>
@@ -68,6 +68,18 @@ Conectado como | <b>{{ auth.user.email }}</b>
 
 <div *ngIf="adocaoConfirmada">
 <h2>Parabéns pela adoção!</h2>
-<!-- Conteúdo adicional de parabenização -->
+<h3>Animais adotados por {{ nomeAdotante }}:</h3>
+<table border="1">
+  <tr>
+    <th>Nome</th>
+    <th>Tipo</th>
+    <th>Foto</th>
+  </tr>
+  <tr *ngFor="let adocao of adocoes">
+    <td>{{ adocao.animal.nome }}</td>
+    <td>{{ adocao.animal.tipo }}</td>
+    <td><img [src]="adocao.animal.foto" [alt]="adocao.animal.nome" width="100" height="auto" /></td>
+  </tr>
+</table>
 </div>
 </div>
