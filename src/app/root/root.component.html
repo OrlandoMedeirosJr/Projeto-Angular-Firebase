@@ -9,12 +9,12 @@
       <div>Senha</div>
       <input type="password" name="password" [(ngModel)]="password" />
       <br>
-      <button (click)="auth.emailSignin(this.email, this.password)">
+      <button (click)="auth.emailSignin(email, password)">
         Login with e-mail
       </button>
       <button (click)="auth.googleSignin()">
-      Login with Google
-    </button>
+        Login with Google
+      </button>
     </fieldset>
   </form>
 </div>
@@ -27,29 +27,43 @@
   <button (click)="auth.signOut()">Exit</button>
   <hr />
 
-  <h2>Lista do firebase</h2>
+  <h2>Animais para adoção</h2>
   <hr />
-  <div>Name:</div>
-  <div><input [(ngModel)]="formNewName" /></div>
-  <div>Age:</div>
-  <div><input type="number" [(ngModel)]="formNewAge" /></div>
-  <br />
-  <button (click)="addItem()">Adicionar</button>
-  <hr />
+
   <table border="1">
     <tr>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Email</th>
-      <th>Command</th>
+      <th>Nome</th>
+      <th>Tipo</th>
+      <th>Foto</th>
+      <th>Selecionar</th>
     </tr>
-    <tr *ngFor="let item of list | async">
-      <td [title]="['chave: ' + item.key]">{{ item.name }} </td>
-      <td>{{ item.age }}</td>
-      <td>{{ item.email }}</td>
-      <td>
-        <button (click)="deleteItem(item.key)">Remover</button>
-      </td>
-    </tr>
+    <tr *ngFor="let animal of animals">
+    <td>{{ animal.nome }}</td>
+    <td>{{ animal.tipo }}</td>
+    <td class="animal-img-cell"><img [src]="animal.foto" [alt]="animal.nome" /></td>
+    <td><input type="checkbox" [(ngModel)]="animal.selecionado" /></td>
+  </tr>
   </table>
+
+  <h2>Preencha o formulário de adoção</h2>
+  <hr />
+
+  <form (ngSubmit)="submitForm()">
+    <fieldset>
+      <legend>Formulário de Adoção</legend>
+      <div>Nome</div>
+      <input type="text" name="nome" [(ngModel)]="formData.nome" />
+      <div>CPF</div>
+      <input type="text" name="cpf" [(ngModel)]="formData.cpf" />
+      <div>Telefone</div>
+      <input type="text" name="telefone" [(ngModel)]="formData.telefone" />
+      <br>
+      <button type="submit">Confirmar Adoção</button>
+    </fieldset>
+  </form>
+</div>
+
+<div *ngIf="adocaoConfirmada">
+<h2>Parabéns pela adoção!</h2>
+<!-- Conteúdo adicional de parabenização -->
 </div>
